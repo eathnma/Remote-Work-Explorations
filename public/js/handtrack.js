@@ -1,3 +1,5 @@
+// using mediapipe to detect hand gestures
+
 const videoElement = document.getElementsByClassName('input_video')[0];
 const canvasElement = document.getElementsByClassName('output_canvas')[0];
 const canvasCtx = canvasElement.getContext('2d');
@@ -9,21 +11,24 @@ canvasCtx.drawImage(
     results.image, 0, 0, canvasElement.width, canvasElement.height);
 if (results.multiHandLandmarks) {
     for (const landmarks of results.multiHandLandmarks) {
+    console.log(landmarks);
     drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS,
-                    {color: '#00FF00', lineWidth: 5});
+                    {color: '#00FF00', lineWidth: 1});
     drawLandmarks(canvasCtx, landmarks, {color: '#FF0000', lineWidth: 2});
     }
 }
 canvasCtx.restore();
 }
 
+
+
 const hands = new Hands({locateFile: (file) => {
 return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
 }});
 hands.setOptions({
-maxNumHands: 2,
-minDetectionConfidence: 0.5,
-minTrackingConfidence: 0.5
+    maxNumHands: 2,
+    minDetectionConfidence: 0.5,
+    minTrackingConfidence: 0.5
 });
 hands.onResults(onResults);
 
@@ -36,3 +41,5 @@ height: 720
 });
 
 camera.start();
+
+console.log(hands);
