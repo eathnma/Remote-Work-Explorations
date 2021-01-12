@@ -1,12 +1,12 @@
 const videoElement = document.getElementsByClassName('input-video')[0];
 const camera = new Camera(videoElement, {
     onFrame: async () => {
-        handpose.send({image: videoElement});
+        // handpose.send({image: videoElement});
     },
     width: 1280,
     height: 720
     });
-
+          
 camera.start();
 
 async function main() {

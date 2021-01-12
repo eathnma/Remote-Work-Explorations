@@ -1,56 +1,27 @@
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Experiment One</title>
-    <link
-    rel="stylesheet"
-    href="https://unpkg.com/handsfree@8.1.1/build/lib/assets/handsfree.css" />
+  <meta charset="UTF-8">
+  <title>Handtrack.js</title>
 
-    <!-- mediapipe code -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script> -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script> -->
-
-    <!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/handpose"></script> -->
-
+  <style>
+    .videobox{
+      display: none;
+    }
+  </style>
 </head>
 
 <body>
-    <!-- Import Handsfree.js in body (as it adds body classes) -->
-    <script src="https://unpkg.com/handsfree@8.1.1/build/lib/handsfree.js"></script>
 
-    <script>
-      // Use the hand with defaults (and show the webcam with wireframes)
-      handsfree = new Handsfree({
-        showDebug: true,
-        hands: true
-      })
+  <video class="videobox canvasbox" autoplay="autoplay" id="myvideo"></video>
 
-      handsfree.use('logger', (data) => {
-      // I like to always bail if there's no data,
-      // which might happen if you swap out hands for the face later on
-      if (!data.hands) return
+  <canvas id="canvas" class="border canvasbox"></canvas>
 
-      // Log the data  
-      console.log(data.hands)
+  <script src="https://unpkg.com/carbon-components@latest/scripts/carbon-components.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/handtrackjs/dist/handtrack.min.js"> </script>
 
-      // Do something if we are pinching with left [0] pinky [3]
-      // if (data.hands.pinchState[0][3] === 'held') {
-      //   console.log('pinching with left pinky')
-      // }
-    })
-    
-  
-      // Start webcam and tracking (personally, I always like to ask first)
-      handsfree.start()
-    </script>
-  
-
+  <script src="./js/handsfree.js"></script>
 </body>
 
 </html>
