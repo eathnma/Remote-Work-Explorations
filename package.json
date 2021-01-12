@@ -1,0 +1,23 @@
+{
+  "name": "remote-work-explorations",
+  "version": "1.0.0",
+  "description": "High Five your Co-workers!",
+  "main": "public/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eathnma/Remote-Work-Explorations.git"
+  },
+  "author": "Ethan Ma",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eathnma/Remote-Work-Explorations/issues"
+  },
+  "homepage": "https://github.com/eathnma/Remote-Work-Explorations#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.7"
+  }
+}
