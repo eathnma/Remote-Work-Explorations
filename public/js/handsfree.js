@@ -63,6 +63,8 @@ handTrack.load(modelParams).then(lmodel => {
 });
 
 
+// AUDREY WRITE HERE
 if(isVideo){
+
     console.log(area, xMiddle, yMiddle);
 }
