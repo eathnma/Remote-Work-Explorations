@@ -1,11 +1,12 @@
 const video = document.getElementById("myvideo");
 const canvas = document.getElementById("canvas");
 const context = canvas.getContext("2d");
-let trackButton = document.getElementById("trackbutton");
-let updateNote = document.getElementById("updatenote");
 
 let isVideo = false;
 let model = null;
+
+let area;
+let xMiddle, yMiddle; 
 
 const modelParams = {
     flipHorizontal: true,   // flip e.g for video  
@@ -26,23 +27,23 @@ function startVideo() {
 }
 
 function runDetection() {
+    console.log(xMiddle, yMiddle, area);
     if(model !== null){
         model.detect(video).then(predictions => {
-            // console.log("Predictions: ", predictions);
 
-            // 0: bottom right x
-            // 1: bottom right y
-            // 2: top left x
-            // 3: top left y
-            let width, length, area;
+            // prediction.bbox[0]: x coord of top left
+            // prediction.bbox[1]: y coord of top left
+            // prediction.bbox[2]: width of bounding box
+            // prediction.bbox[3]: height of bounding box
 
-            predictions.forEach(prediction => 
-                // console.log(prediction.bbox)
-                area = prediction.bbox[2] * prediction.bbox[3]
-            )  
-            
-            console.log(area);
-            
+            predictions.forEach(prediction => {
+                xMiddle = prediction.bbox[0] + (prediction.bbox[2] / 2);
+                yMiddle = prediction.bbox[1] + (prediction.bbox[3] / 2);
+
+                area = prediction.bbox[2] * prediction.bbox[3];
+                // console.log(area);
+            });  
+                        
             // console.log(predictions.bbox);
             model.renderPredictions(predictions, canvas, context, video);
             if (isVideo) {
@@ -60,3 +61,8 @@ handTrack.load(modelParams).then(lmodel => {
     model = lmodel;
     startVideo();
 });
+
+
+if(isVideo){
+    console.log(area, xMiddle, yMiddle);
+}
