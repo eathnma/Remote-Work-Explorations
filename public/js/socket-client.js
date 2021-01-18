@@ -1,9 +1,10 @@
 // by passing in "localhost:1500 through the socket object,
 // it links the front & backend together.
-var socket = io('http://localhost:1500');
+var socket = io();
 
 const messageForm = document.getElementById("send-container");
 const messageInput = document.getElementById("message-input");
+
 
 messageForm.addEventListener("submit", e =>{
     // remove page refresh on submit
