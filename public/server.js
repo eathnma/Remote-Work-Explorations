@@ -18,24 +18,49 @@ app.get('/', (req, res) => {
   res.sendFile('/views/index.html',{ root: __dirname });
 })
 
+const users = {};
+
 //socket data handling
 io.on('connection', socket => {
+  // users[socket.id] = socket;
   // logs that a user has been conneted
-  console.log("a user connected");
+  // console.log("a user connected");
 
+  //new-user returns the user that joined the room
+  socket.on('new-user', user =>{
+    users[socket.id] = user
+    socket.broadcast.emit('user-connected', user)
+    console.log(users)
+  });
+
+  //send-chat-message is where the user clicks the submit button
   socket.on('send-chat-message', message =>{
     // socket.broadcast.emit sends values to everybody but
     // the person who sent the request. 
     console.log("backend", message);
-    
-    socket.broadcast.emit('chat-message', message);  
-    
+
+    // chat message returns name & message 
+    socket.broadcast.emit('chat-message', { 
+      message: message, 
+      user: users[socket.id] 
+    });  
   }); 
+
+  // grabs camera values from user
+  socket.on('camera-values', values =>{
+    //constantly prints area, x , y coordinates
+    console.log(values);
+  });
 
   // logs that a user has been disconnected
   socket.on('disconnect', () => {
-    console.log('user disconnected');    
+    // grabs the user that disconnected
+    // grabs the id of the socket user & deletes it from 
+    // the object list 'users'
+    console.info('user disconnected (id=' + users[socket.id] + ').');
+      delete users[socket.id];
   });
+
 });
 
 

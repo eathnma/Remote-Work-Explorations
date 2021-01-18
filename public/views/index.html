@@ -14,14 +14,18 @@
       height: 576px;
     }
   </style>
+
+   <!--  import socket code for detecting users-->
+   <script type="module" src="../js/socket-client.js"></script>
 </head>
 
 <body>
-  <!-- <video class="videobox canvasbox" autoplay="autoplay" id="myvideo"></video> -->
+  <video class="videobox canvasbox" autoplay="autoplay" id="myvideo"></video>
 
   <div id="message-container"></div>
 
-  <form id="send-container">
+  <!-- onsubmit = return false so the page doesn't reload on submit -->
+  <form id="send-container" onsubmit="return false">
     <input type="text" id="message-input">
     <button type="submit" id="send-button">Send</button>
   </form>
@@ -36,10 +40,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js"></script>
 
   <!--  import handtracking JS code -->
-  <!-- <script type="module" src="../js/handsfree.js"></script> -->
+  <script type="module" src="../js/handsfree.js"></script>
 
-  <!--  import socket code for detecting users-->
-  <script type="module" src="../js/socket-client.js"></script>
+  <!-- testing -->
+  <script type="module" src="../js/hands.js"></script>
   
 </body>
 

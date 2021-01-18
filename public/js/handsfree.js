@@ -1,3 +1,8 @@
+import{ Hands } from './hands.js'; 
+
+// create new Hands Object
+var hands = new Hands(0,0,0);
+
 const video = document.getElementById("myvideo");
 const canvas = document.getElementById("canvas");
 const context = canvas.getContext("2d");
@@ -5,8 +10,7 @@ const context = canvas.getContext("2d");
 let isVideo = false;
 let model = null;
 
-let area;
-let xMiddle, yMiddle; 
+let area, xMiddle, yMiddle;
 
 const modelParams = {
     flipHorizontal: true,   // flip e.g for video  
@@ -27,7 +31,7 @@ function startVideo() {
 }
 
 function runDetection() {
-    console.log(xMiddle, yMiddle, area);
+    // console.log(xMiddle, yMiddle, area);
     if(model !== null){
         model.detect(video).then(predictions => {
 
@@ -41,8 +45,9 @@ function runDetection() {
                 yMiddle = prediction.bbox[1] + (prediction.bbox[3] / 2);
 
                 area = prediction.bbox[2] * prediction.bbox[3];
-                // console.log(area);
             });  
+
+            hands.sendToSocket(area, xMiddle, yMiddle);
                         
             // console.log(predictions.bbox);
             model.renderPredictions(predictions, canvas, context, video);
@@ -62,9 +67,12 @@ handTrack.load(modelParams).then(lmodel => {
     startVideo();
 });
 
-
 // AUDREY WRITE HERE
-if(isVideo){
-    
-    console.log(area, xMiddle, yMiddle);
+export function updateValues(){
+    if(status){
+        console.log(area, xMiddle, yMiddle);
+        // return area, xMiddle, yMiddle;
+    }
 }
+
+updateValues();
