@@ -9,25 +9,46 @@
     .videobox{
       display: none;
     }
-    canvas{
-      width: 1024px;
-      height: 576px;
+    #canvas{
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 256px;
+      height: 144px;
     }
+      
+    #paperCanvas[resize] {
+        width: 100%;
+        height: 100%;
+      }
+      
+      #handvalues {
+      }
   </style>
+    
 </head>
 
 <body>
 
   <video class="videobox canvasbox" autoplay="autoplay" id="myvideo"></video>
-
+  <canvas id="paperCanvas" resize="true"></canvas>
   <canvas id="canvas" class="border canvasbox"></canvas>
 
   <script src="https://unpkg.com/carbon-components@latest/scripts/carbon-components.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/handtrackjs/dist/handtrack.min.js"> </script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.11/paper-full.min.js"></script>
   <script type="module" src="./js/handsfree.js"> </script>
   <script type="module" src="./js/handvalues.js"> </script>
-  
+  <script type="text/paperscript" src="./js/paper.js" canvas="myCanvas"></script>
+    
+    <div id="handvalues">
+        <p id="area"></p>
+        <p id="xMiddle"></p>
+        <p id="yMiddle"></p>
+        <h1>hello world</h1>
+    </div>
+   
+    <img src="hand.png" id="hand" style="display:none;">
 </body>
 
 </html>
