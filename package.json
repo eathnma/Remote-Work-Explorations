@@ -4,7 +4,7 @@
   "description": "High Five your Co-workers!",
   "main": "public/server.js",
   "scripts": {
-    "start": "public/server.js",
+    "start": "node public/server.js",
     "devStart": "nodemon public/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
