@@ -10,21 +10,36 @@
       display: none;
     }
     canvas{
-      width: 1024px;
+      width: 824px;
       height: 576px;
     }
   </style>
 </head>
 
 <body>
-  <video class="videobox canvasbox" autoplay="autoplay" id="myvideo"></video>
+  <!-- <video class="videobox canvasbox" autoplay="autoplay" id="myvideo"></video> -->
+
+  <div id="message-container"></div>
+
+  <form id="send-container">
+    <input type="text" id="message-input">
+    <button type="submit" id="send-button">Send</button>
+  </form>
 
   <canvas id="canvas" class="border canvasbox"></canvas>
 
+  <!-- SRC Libraries for Handtracking code  -->
   <script src="https://unpkg.com/carbon-components@latest/scripts/carbon-components.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/handtrackjs/dist/handtrack.min.js"> </script>
 
-  <script type="module" src="../js/handsfree.js"></script>
+    <!--  import socket.io cdn -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js"></script>
+
+  <!--  import handtracking JS code -->
+  <!-- <script type="module" src="../js/handsfree.js"></script> -->
+
+  <!--  import socket code for detecting users-->
+  <script type="module" src="../js/socket-client.js"></script>
   
 </body>
 

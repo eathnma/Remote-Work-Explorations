@@ -18,24 +18,30 @@ app.get('/', (req, res) => {
   res.sendFile('/views/index.html',{ root: __dirname });
 })
 
-// process.env.PORT for heroku deployment
-http.listen(process.env.PORT || port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+//socket data handling
+io.on('connection', socket => {
+  // logs that a user has been conneted
+  console.log("a user connected");
+
+  socket.on('send-chat-message', message =>{
+    // socket.broadcast.emit sends values to everybody but
+    // the person who sent the request. 
+    socket.broadcast.emit('chat-message', message);  
+  }); 
+
+  // logs that a user has been disconnected
+  socket.on('disconnect', () => {
+    console.log('user disconnected');    
+  });
 });
 
 
-// //setting middleware
-// app.use(express.static(__dirname + 'public')); //Serves resources from public folder
 
-// // current pathing
-// // /Users/ethan/Desktop/directed study/digital experiments/Remote-Work-Explorations/public
 
-// app.use('/js',express.static(__dirname + '/js'));
 
-// app.get('/', function(req, res) {
-//   res.sendFile(path.join(__dirname + '/index.html'));
-// });
 
-// app.listen(1500, function(){
-//   console.log("listening at port 1500")
-// });
+
+//heroku deployment
+http.listen(process.env.PORT || port, () => {
+  console.log(`Example app listening at http://localhost:${port}`);
+});
