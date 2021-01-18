@@ -26,7 +26,10 @@ io.on('connection', socket => {
   socket.on('send-chat-message', message =>{
     // socket.broadcast.emit sends values to everybody but
     // the person who sent the request. 
+    console.log("backend", message);
+    
     socket.broadcast.emit('chat-message', message);  
+    
   }); 
 
   // logs that a user has been disconnected

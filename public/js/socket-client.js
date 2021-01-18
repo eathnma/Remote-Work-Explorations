@@ -25,7 +25,7 @@ messageForm.addEventListener("submit", e =>{
 // grabs the key 'chat-message' from the backend
 // listens for a chat-message response from other sockets
 socket.on('chat-message', data => {
-    console.log("message has been passed", data );
+    console.log("message has been passed", data) ;
 });
 
 function appendMessage(message){
