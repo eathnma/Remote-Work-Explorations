@@ -65,13 +65,6 @@ handTrack.load(modelParams).then(lmodel => {
 
 if(isVideo){
     console.log(area, xMiddle, yMiddle);
-    
-    if (typeof(Storage) !== "undefined") {
-    sessionStorage.setItem("area", area);
-    sessionStorage.setItem("xMiddle", xMiddle);
-    sessionStorage.setItem("yMiddle", yMiddle);
-} else {
-}
 }
 
 
