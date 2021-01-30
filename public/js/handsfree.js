@@ -23,7 +23,7 @@ function startVideo() {
     handTrack.startVideo(video).then(function (status) {
         console.log("video started", status);
         if (status) {
-            isVideo = true
+            isVideo = true;
             runDetection();
         } else {
         }
@@ -48,6 +48,8 @@ function runDetection() {
             });  
 
             hands.sendToSocket(area, xMiddle, yMiddle);
+            
+            hands.draw(area);
                         
             // console.log(predictions.bbox);
             model.renderPredictions(predictions, canvas, context, video);
@@ -65,7 +67,6 @@ handTrack.load(modelParams).then(lmodel => {
     // detect objects in the image.
     model = lmodel;
     startVideo();
-    hands.draw();
 });
 
 // AUDREY WRITE HERE
