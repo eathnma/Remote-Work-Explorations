@@ -22,7 +22,8 @@ function onMouseMove(event) {
 
 function changeBackground(path1, path2){
     var intersections = path1.getIntersections(path2);
-    if (intersections.children.length != null) {
+    console.log(intersections.length);
+    if (intersections.length > 10) {
         document.body.style.backgroundColor = "red";
     } else {
         document.body.style.backgroundColor = "white";
