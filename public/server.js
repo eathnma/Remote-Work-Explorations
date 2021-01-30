@@ -22,9 +22,6 @@ const users = {};
 
 //socket data handling
 io.on('connection', socket => {
-  // users[socket.id] = socket;
-  // logs that a user has been conneted
-  // console.log("a user connected");
 
   //new-user returns the user that joined the room
   socket.on('new-user', user =>{
@@ -49,7 +46,16 @@ io.on('connection', socket => {
   // grabs camera values from user
   socket.on('camera-values', values =>{
     //constantly prints area, x , y coordinates
-    console.log(values);
+    // console.log(values);
+
+    //returns camera values to second client
+    //socket.broadcast sends to all clients except sender
+    socket.broadcast.emit('other-camera-values', {
+      area: values.area,
+      xMiddle: values.xMiddle,
+      yMiddle: values.yMiddle
+    });
+
   });
 
   // logs that a user has been disconnected

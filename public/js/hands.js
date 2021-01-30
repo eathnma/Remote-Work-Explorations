@@ -8,15 +8,32 @@ export class Hands{
     }
 
     update(){
-        // drawMethod()
     }
 
+    draw(){
+        // console.log("drawing is working");
+        
+        // Get a reference to the canvas object
+        var canvas = document.getElementById('paperCanvas');
+        // Create an empty project and a view for the canvas:
+        paper.install(window);
+
+            console.log("window loaded");
+            // setup loads an id for the canvas
+            paper.setup('paperCanvas');
+            var myCircle = new Path.Circle(new Point(100, 70), 50);
+            myCircle.fillColor = 'black';
+
+        
+    }
+    
     sendToSocket(area, xMiddle, yMiddle){
         var cameraValues = {};
         cameraValues.area = area;
         cameraValues.xMiddle = xMiddle;
         cameraValues.yMiddle = yMiddle;
-    
+        
+        // sends values to server
         this.socket.emit('camera-values', cameraValues);
     }
 }

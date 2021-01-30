@@ -4,7 +4,7 @@ import{ Hands } from './hands.js';
 var hands = new Hands(0,0,0);
 
 const video = document.getElementById("myvideo");
-const canvas = document.getElementById("canvas");
+const canvas = document.getElementById("canvasVideo");
 const context = canvas.getContext("2d");
 
 let isVideo = false;
@@ -24,7 +24,7 @@ function startVideo() {
         console.log("video started", status);
         if (status) {
             isVideo = true
-            runDetection()
+            runDetection();
         } else {
         }
     });
@@ -65,6 +65,7 @@ handTrack.load(modelParams).then(lmodel => {
     // detect objects in the image.
     model = lmodel;
     startVideo();
+    hands.draw();
 });
 
 // AUDREY WRITE HERE

@@ -1,3 +1,7 @@
+// socket-client is split between two types of code
+// INPUT focuses on sending specific types of data to the backend.
+// OUTPUT focuses on recieving types of data from the other client
+// and displaying it in the front end.
 
 // <--  INPUT  --> 
 var socket = io("http://localhost:1500");
@@ -26,15 +30,19 @@ messageForm.addEventListener("submit", e =>{
 });
 
 
-
-
-
 // <--  OUTPUT  --> 
 
 // grabs the key 'chat-message' from the backend
 // listens for a chat-message response from other sockets
 socket.on('chat-message', data => {
     console.log("message has been passed", `${data.name}: ${data.message}`)
+});
+
+socket.on('other-camera-values', data => {
+    // console.log('other camera values', `${data.area}: ${data.xMiddle}: ${data.yMiddle}`)
+    
+    // put hand class here. so it draws it out for the other person
+    
 });
 
 socket.on('user-connected', user =>{
