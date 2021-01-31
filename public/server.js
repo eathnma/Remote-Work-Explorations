@@ -1,5 +1,5 @@
 const path = require('path');
-const port = 1500;
+const port = 1501;
 
 const app = require('express')();
 const express = require('express');
@@ -22,16 +22,17 @@ const users = {};
 
 //socket data handling
 io.on('connection', socket => {
-
   //new-user returns the user that joined the room
   socket.on('new-user', user =>{
     users[socket.id] = user
     socket.broadcast.emit('user-connected', user)
     console.log(users)
+    console.log(io.engine.clientsCount, io.eio.clientsCount)
+    console.log(Object.keys(io.engine.clients))
   });
 
   //send-chat-message is where the user clicks the submit button
-  socket.on('send-chat-message', message =>{
+  socket.on('send-chat-message', message => {
     // socket.broadcast.emit sends values to everybody but
     // the person who sent the request. 
     console.log("backend", message);
@@ -46,10 +47,10 @@ io.on('connection', socket => {
   // grabs camera values from user
   socket.on('camera-values', values =>{
     //constantly prints area, x , y coordinates
-    console.log(values);
+    // console.log(values);
 
     //returns camera values to second client
-    //socket.broadcast sends to all clients except sender
+    //socket.broadcast.emit sends to all clients except sender
     socket.broadcast.emit('other-camera-values', {
       area: values.area,
       xMiddle: values.xMiddle,

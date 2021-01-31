@@ -1,8 +1,3 @@
-import{ Hands } from './hands.js'; 
-
-// create new Hands Object
-var hands = new Hands(0,0,0);
-
 const video = document.getElementById("myvideo");
 const canvas = document.getElementById("canvasVideo");
 const context = canvas.getContext("2d");
@@ -19,19 +14,39 @@ const modelParams = {
     scoreThreshold: 0.6,    // confidence threshold for predictions.
 }
 
-function startVideo() {
+let hands;
+
+export class HandDetect{
+
+    constructor(manyHands){
+        hands = manyHands;
+        this.load();
+    }
+
+load(){
+    // Load the model.
+    handTrack.load(modelParams).then(lmodel => {
+    // detect objects in the image.
+    model = lmodel;
+    this.startVideo();
+});
+}
+
+startVideo() {
+    let that = this;
     handTrack.startVideo(video).then(function (status) {
         console.log("video started", status);
         if (status) {
             isVideo = true;
             runDetection();
         } else {
+
         }
     });
 }
+}
 
 function runDetection() {
-    // console.log(xMiddle, yMiddle, area);
     if(model !== null){
         model.detect(video).then(predictions => {
 
@@ -47,9 +62,11 @@ function runDetection() {
                 area = prediction.bbox[2] * prediction.bbox[3];
             });  
 
+            // sends values to other client
             hands.sendToSocket(area, xMiddle, yMiddle);
             
-            hands.draw(area);
+            // takes local values and draws image
+            hands.drawHand(area);
                         
             // console.log(predictions.bbox);
             model.renderPredictions(predictions, canvas, context, video);
@@ -60,21 +77,4 @@ function runDetection() {
     } else {
         console.log("model not loaded");
     }
-}
-
-// Load the model.
-handTrack.load(modelParams).then(lmodel => {
-    // detect objects in the image.
-    model = lmodel;
-    startVideo();
-});
-
-// AUDREY WRITE HERE
-export function updateValues(){
-    if(status){
-        console.log(area, xMiddle, yMiddle);
-        // return area, xMiddle, yMiddle;
-    }
-}
-
-updateValues();
+  }
