@@ -1,8 +1,6 @@
-const messageForm = document.getElementById("send-container");
-const messageInput = document.getElementById("message-input");
-
 const user = prompt("What is your name?");
 
+// create local variable of hands 
 let hands;
 
 export class SocketClient{
@@ -17,21 +15,21 @@ export class SocketClient{
         // appendMessage('You Joined');
        hands.socket.emit('new-user', user);
 
-        messageForm.addEventListener("submit", e =>{
-        // remove page refresh on submit
-        e.preventDefault();
+        // messageForm.addEventListener("submit", e =>{
+        // // remove page refresh on submit
+        // e.preventDefault();
 
-        const message = messageInput.value;
+        // const message = messageInput.value;
         
-        // send chat message to SOCKET.
-        // 1. Key "send-chat-message"
-        // 2. Value "message"
-        // 3. Socket does the handling in the backend.
-        hands.socket.emit('send-chat-message', message);
+        // // send chat message to SOCKET.
+        // // 1. Key "send-chat-message"
+        // // 2. Value "message"
+        // // 3. Socket does the handling in the backend.
+        // hands.socket.emit('send-chat-message', message);
 
-        // set string to default value after 'submit'
-        messageInput.value = '';
-        });
+        // // set string to default value after 'submit'
+        // messageInput.value = '';
+        // });
 
     }
     output(){
@@ -45,13 +43,14 @@ export class SocketClient{
             console.log('other camera values', `${data.area}: ${data.xMiddle}: ${data.yMiddle}`);
             // put hand class here. so it draws it out for the other person
 
-            hands.drawOtherHand(`${data.xMiddle}`,`${data.yMiddle}`,`${data.area}`);
+            // hands.drawOtherHand(`${data.xMiddle}`,`${data.yMiddle}`,`${data.area}`);
+            // hands.drawOtherHand(`${data.xMiddle}`,30, 30);
             
         });
 
         hands.socket.on('user-connected', user =>{
             console.log('person-connected', user);
-            // appendMessage()
+            document.getElementById("user").innerHTML = user + " has entered the room!";
         });
 
     }

@@ -25,10 +25,10 @@ io.on('connection', socket => {
   //new-user returns the user that joined the room
   socket.on('new-user', user =>{
     users[socket.id] = user
-    socket.broadcast.emit('user-connected', user)
+    socket.broadcast.emit('user-connected', user);
+    
     console.log(users)
     console.log(io.engine.clientsCount, io.eio.clientsCount)
-    console.log(Object.keys(io.engine.clients))
   });
 
   //send-chat-message is where the user clicks the submit button
@@ -69,11 +69,6 @@ io.on('connection', socket => {
   });
 
 });
-
-
-
-
-
 
 
 //heroku deployment

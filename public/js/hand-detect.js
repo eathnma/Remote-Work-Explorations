@@ -15,6 +15,7 @@ const modelParams = {
 }
 
 let hands;
+let previousHandArea, previousHandX, previousHandY;
 
 export class HandDetect{
 
@@ -65,8 +66,12 @@ function runDetection() {
             // sends values to other client
             hands.sendToSocket(area, xMiddle, yMiddle);
             
+            hands.drawOtherHand(270, 30, 30);
+
             // takes local values and draws image
             hands.drawHand(xMiddle, yMiddle, area);
+
+
                         
             // console.log(predictions.bbox);
             model.renderPredictions(predictions, canvas, context, video);
