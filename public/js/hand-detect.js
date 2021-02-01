@@ -9,7 +9,7 @@ let area, xMiddle, yMiddle;
 
 const modelParams = {
     flipHorizontal: true,   // flip e.g for video  
-    maxNumBoxes: 20,        // maximum number of boxes to detect
+    maxNumBoxes: 1,        // maximum number of boxes to detect
     iouThreshold: 0.5,      // ioU threshold for non-max suppression
     scoreThreshold: 0.6,    // confidence threshold for predictions.
 }
@@ -66,7 +66,7 @@ function runDetection() {
             hands.sendToSocket(area, xMiddle, yMiddle);
             
             // takes local values and draws image
-            hands.drawHand(area);
+            hands.drawHand(xMiddle, yMiddle, area);
                         
             // console.log(predictions.bbox);
             model.renderPredictions(predictions, canvas, context, video);

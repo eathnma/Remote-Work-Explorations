@@ -45,7 +45,7 @@ export class SocketClient{
             console.log('other camera values', `${data.area}: ${data.xMiddle}: ${data.yMiddle}`);
             // put hand class here. so it draws it out for the other person
 
-            hands.drawOtherHand(`${data.area}`);
+            hands.drawOtherHand(`${data.xMiddle}`,`${data.yMiddle}`,`${data.area}`);
             
         });
 

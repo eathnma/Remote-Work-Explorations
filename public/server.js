@@ -47,7 +47,7 @@ io.on('connection', socket => {
   // grabs camera values from user
   socket.on('camera-values', values =>{
     //constantly prints area, x , y coordinates
-    // console.log(values);
+    console.log(values);
 
     //returns camera values to second client
     //socket.broadcast.emit sends to all clients except sender
