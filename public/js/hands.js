@@ -1,3 +1,6 @@
+var myHand;
+var otherHand;
+
 export class Hands{
 
     constructor(){
@@ -13,8 +16,6 @@ export class Hands{
         var mappedScale = this.map_range(scale, 8000, 20000, 3, 30);
    
         // console.log("window loaded");
-        // setup loads an id for the canvas
-        paper.setup('paperCanvas');
         // var myCircle = new Path.Circle(new Point(200, 70), 20);
         var myCircle = new Path.Circle(new Point(mappedX, mappedY), mappedScale);
         myCircle.fillColor = 'black';

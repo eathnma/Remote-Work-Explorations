@@ -82,4 +82,3 @@ function runDetection() {
     } else {
         console.log("model not loaded");
     }
-  }
