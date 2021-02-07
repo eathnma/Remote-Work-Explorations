@@ -41,8 +41,8 @@ startVideo() {
             isVideo = true;
             runDetection();
         } else {
-
-        }
+            
+        }   
     });
 }
 }

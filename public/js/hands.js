@@ -17,17 +17,15 @@ export class Hands{
     }
 
     // maybe they have to be put into the same function?
-    // draw(){
-    //     // paper.setup('paperCanvas');
+    draw(){
+        // paper.setup('paperCanvas');
 
-    //     console.log(this.drawHand());
-    //     this.drawHand();
+        console.log(this.drawHand());
+        this.drawHand();
 
-    //     varOne.fillColor = 'black';
-
-    //     // var myTwo = new Path.Circle(new Point(10,10), 50);
-    //     // myTwo.fillColor = 'red';
-    // }
+        // var myTwo = new Path.Circle(new Point(10,10), 50);
+        // myTwo.fillColor = 'red';
+    }
 
     drawHand(scale,x,y){
         paper.setup('paperCanvas');
@@ -39,10 +37,10 @@ export class Hands{
         // sends to drawCanvas
         var varOne = new Path.Circle(new Point(mappedX, mappedY), mappedScale);
         varOne.fillColor = 'white';
-        
     }
 
     drawOtherHand(scale,x,y){
+        paper.setup('paperCanvas');
         // returns a mapped min-max of variables
         var mappedX = this.map_range(x, 60, 600, 0, windowWidth);
         var mappedY = this.map_range(y, 70, 440, 0, windowHeight);
@@ -50,10 +48,9 @@ export class Hands{
         // 8000 - 20,000 are the hand-detection scale variables
         var mappedScale = this.map_range(scale, 8000, 20000, 3, 30);
         
-        
         // setup loads an id for the canvas
-        // var otherCircle = new Path.Circle(new Point(mappedX, mappedY), mappedScale);
-        // otherCircle.fillColor = 'red';
+        var otherCircle = new Path.Circle(new Point(mappedX, mappedY), mappedScale);
+        otherCircle.fillColor = 'red';
     }
     
     sendToSocket(area, xMiddle, yMiddle){
