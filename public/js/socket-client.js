@@ -45,7 +45,6 @@ export class SocketClient{
 
             // hands.drawOtherHand(`${data.xMiddle}`,`${data.yMiddle}`,`${data.area}`);
             // hands.drawOtherHand(`${data.xMiddle}`,30, 30);
-            
         });
 
         hands.socket.on('user-connected', user =>{

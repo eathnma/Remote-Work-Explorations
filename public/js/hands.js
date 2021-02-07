@@ -1,40 +1,59 @@
 var myHand;
 var otherHand;
 
+// this may change on resize
+var windowWidth;
+var windowHeight;
+
 export class Hands{
 
     constructor(){
         this.socket = io();
          // Create an empty project and a view for the canvas:
          paper.install(window);
+
+         windowWidth = window.innerWidth;
+         windowHeight = window.innerHeight;
     }
 
-    drawHand(x,y,scale){
-        // returns a mapped min-max of scale
-        var mappedX = this.map_range(x, 60, 600, 0, 700);
-        var mappedY = this.map_range(y, 70, 440, 0, 700);
-        var mappedScale = this.map_range(scale, 8000, 20000, 3, 30);
-   
-        // console.log("window loaded");
-        // var myCircle = new Path.Circle(new Point(200, 70), 20);
-        var myCircle = new Path.Circle(new Point(mappedX, mappedY), mappedScale);
-        myCircle.fillColor = 'black';
-    }
+    // maybe they have to be put into the same function?
+    // draw(){
+    //     // paper.setup('paperCanvas');
 
-    drawOtherHand(x,y,scale){
-        console.log("this runs");
-        // returns a mapped min-max of variables
-        var mappedX = this.map_range(x, 60, 600, 0, 700);
-        var mappedY = this.map_range(y, 70, 440, 0, 700);
-        var mappedScale = this.map_range(scale, 8000, 20000, 3, 30);
-   
+    //     console.log(this.drawHand());
+    //     this.drawHand();
+
+    //     varOne.fillColor = 'black';
+
+    //     // var myTwo = new Path.Circle(new Point(10,10), 50);
+    //     // myTwo.fillColor = 'red';
+    // }
+
+    drawHand(scale,x,y){
         paper.setup('paperCanvas');
+        // returns a mapped min-max of scale
+        var mappedX = this.map_range(x, 60, 600, 0, windowWidth);
+        var mappedY = this.map_range(y, 70, 440, 0, windowHeight);
+        var mappedScale = this.map_range(scale, 8000, 20000, 3, 30);
 
+        // sends to drawCanvas
+        var varOne = new Path.Circle(new Point(mappedX, mappedY), mappedScale);
+        varOne.fillColor = 'white';
+        
+    }
+
+    drawOtherHand(scale,x,y){
+        // returns a mapped min-max of variables
+        var mappedX = this.map_range(x, 60, 600, 0, windowWidth);
+        var mappedY = this.map_range(y, 70, 440, 0, windowHeight);
+
+        // 8000 - 20,000 are the hand-detection scale variables
+        var mappedScale = this.map_range(scale, 8000, 20000, 3, 30);
+        
+        
         // setup loads an id for the canvas
-        var otherCircle = new Path.Circle(new Point(x, y), scale);
         // var otherCircle = new Path.Circle(new Point(mappedX, mappedY), mappedScale);
-
-        otherCircle.fillColor = 'red';
+        // otherCircle.fillColor = 'red';
     }
     
     sendToSocket(area, xMiddle, yMiddle){

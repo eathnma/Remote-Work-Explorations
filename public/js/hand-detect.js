@@ -66,12 +66,10 @@ function runDetection() {
             // sends values to other client
             hands.sendToSocket(area, xMiddle, yMiddle);
             
-            hands.drawOtherHand(270, 30, 30);
+            // hands.drawOtherHand(270, 30, 30);
 
             // takes local values and draws image
-            hands.drawHand(xMiddle, yMiddle, area);
-
-
+            hands.drawHand(area, xMiddle, yMiddle);
                         
             // console.log(predictions.bbox);
             model.renderPredictions(predictions, canvas, context, video);
@@ -82,3 +80,4 @@ function runDetection() {
     } else {
         console.log("model not loaded");
     }
+}

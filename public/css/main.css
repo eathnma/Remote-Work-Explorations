@@ -1,0 +1,23 @@
+html,
+body {
+  height: 100%;
+}
+.videobox {
+  display: none;
+}
+#canvasVideo {
+  width: 206px;
+  height: 144px;
+}
+
+#paperCanvas {
+  background-color: blue;
+  width: 200px;
+  height: 300px;
+}
+
+#wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
