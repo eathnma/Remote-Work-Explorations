@@ -5,9 +5,13 @@
   <meta charset="UTF-8">
   <title>Handtrack.js</title>
   <style>
+
     html,
 body {
   height: 100%;
+}
+h5{
+  color: white;
 }
 .videobox {
   display: none;
@@ -53,16 +57,32 @@ body {
 
      <!-- import paper.js cdn -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.11/paper-full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.1/howler.min.js">
+    var sound = new Howl({
+        src: ["../../assets/celebrate.mp3"],
+
+        onload(){
+          console.log("Sound file loaded!");
+        },
+
+        onloaderror(e,msg){
+          console.log("Error", e, msg);
+        }
+
+      });
+      sound.play();
+      console.log(sound);
+  </script>
 </head>
 
 <body>
   <!-- this video isn't shown on the html canvas -->
   <video class="videobox canvasbox" autoplay="autoplay" id="myvideo"></video>
 
-  <h5 id="user"></h5>
-
   <canvas id="canvasVideo" class="canvasbox"></canvas>
-  <canvas id="paperCanvas"></canvas>
+  <canvas id="paperCanvas">
+
+  </canvas>
 
   <!-- SRC Libraries for Handtracking code  -->
   <script src="https://unpkg.com/carbon-components@latest/scripts/carbon-components.js"></script>
@@ -73,13 +93,12 @@ body {
 
   <!-- main js -->
   <script type="module" src="../js/main.js"></script>
-  
+
   <!--  import handtracking JS code -->
   <!-- <script type="module" src="../js/hand-detect.js"></script> -->
 
   <!-- testing -->
   <!-- <script type="module" src="../js/hands.js"></script> -->
 
-</body>
-
+  </body>
 </html>

@@ -5,54 +5,68 @@ var otherHand;
 var windowWidth;
 var windowHeight;
 
+var circleOne;
+var circleTwo;
+
+var prevCircleScale;
+
+// const {Howl, Howler} = require('howler');
+
 export class Hands{
 
     constructor(){
         this.socket = io();
          // Create an empty project and a view for the canvas:
-         paper.install(window);
-
          windowWidth = window.innerWidth;
          windowHeight = window.innerHeight;
+         paper.install(window);
+
+        paper.setup('paperCanvas');
+        
+        this.circleOne = circleOne;
+        this.circleTwo = circleTwo;
+        this.prevCircleScale =  prevCircleScale;
+         
+        circleOne = new Path.Circle({
+            center: new Point(200, 200),
+            radius: 10,
+            fillColor: 'white'
+        });
+
+        circleTwo = new Path.Circle({
+            center: new Point(100, 100),
+            radius: 10,
+            fillColor: 'red'
+        });  
+        
+        // start playing Celebration
+        // var sound = new Howl({
+        //     src: ['celebrate.mp3'],
+        // });
+
+        // sound.play();
     }
 
     // maybe they have to be put into the same function?
-    draw(){
-        // paper.setup('paperCanvas');
-
-        console.log(this.drawHand());
-        this.drawHand();
-
-        // var myTwo = new Path.Circle(new Point(10,10), 50);
-        // myTwo.fillColor = 'red';
-    }
-
-    drawHand(scale,x,y){
-        paper.setup('paperCanvas');
-        // returns a mapped min-max of scale
+    draw(scale, x, y, type){
         var mappedX = this.map_range(x, 60, 600, 0, windowWidth);
         var mappedY = this.map_range(y, 70, 440, 0, windowHeight);
         var mappedScale = this.map_range(scale, 8000, 20000, 3, 30);
 
-        // sends to drawCanvas
-        var varOne = new Path.Circle(new Point(mappedX, mappedY), mappedScale);
-        varOne.fillColor = 'white';
+        console.log(mappedScale);
+
+        if(type == 'you'){
+            circleOne.position = new Point(mappedX, mappedY);
+            // console.log(circleOne.position);
+            // circleOne.scale();
+        }
+
+        if(type == 'them'){
+            circleTwo.position = new Point(mappedX, mappedY);
+            // circleTwo.radius = mappedScale;
+        }
     }
 
-    drawOtherHand(scale,x,y){
-        paper.setup('paperCanvas');
-        // returns a mapped min-max of variables
-        var mappedX = this.map_range(x, 60, 600, 0, windowWidth);
-        var mappedY = this.map_range(y, 70, 440, 0, windowHeight);
-
-        // 8000 - 20,000 are the hand-detection scale variables
-        var mappedScale = this.map_range(scale, 8000, 20000, 3, 30);
-        
-        // setup loads an id for the canvas
-        var otherCircle = new Path.Circle(new Point(mappedX, mappedY), mappedScale);
-        otherCircle.fillColor = 'red';
-    }
-    
     sendToSocket(area, xMiddle, yMiddle){
         var cameraValues = {};
         cameraValues.area = area;

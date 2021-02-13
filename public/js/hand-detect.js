@@ -41,7 +41,7 @@ startVideo() {
             isVideo = true;
             runDetection();
         } else {
-            
+
         }   
     });
 }
@@ -69,7 +69,7 @@ function runDetection() {
             // hands.drawOtherHand(270, 30, 30);
 
             // takes local values and draws image
-            hands.drawHand(area, xMiddle, yMiddle);
+            hands.draw(area, xMiddle, yMiddle, "you");
                         
             // console.log(predictions.bbox);
             model.renderPredictions(predictions, canvas, context, video);
