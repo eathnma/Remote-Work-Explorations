@@ -11,9 +11,9 @@ var values = {
 values.invMass = 1 / values.mass;
 
 var path, springs;
-var size = view.size * 0.5;
+// var size = view.size * 0.5;
 
-var lastMousePosition = view.center;
+// var lastMousePosition = view.center;
 
 // this may change on resize
 var windowWidth;
@@ -60,60 +60,18 @@ export class Hands{
         this.pScaleThem= pScaleThem;
         this.slap = slap;
 
-        var Spring = function(a, b, strength, restLength) {
-            this.a = a;
-            this.b = b;
-            this.restLength = restLength || 80;
-            this.strength = strength ? strength : 0.55;
-            this.mamb = values.invMass * values.invMass;
-        };
+        circleOne = new Path.Circle({
+            center: new Point(200, 200),
+            radius: 10,
+            fillColor: 'white'
+        });
 
-        Spring.prototype.update = function() {
-            var delta = this.b - this.a;
-            var dist = delta.length;
-            var normDistStrength = (dist - this.restLength) /
-                    (dist * this.mamb) * this.strength;
-            delta.y *= normDistStrength * values.invMass * 0.2;
-            if (!this.a.fixed)
-                this.a.y += delta.y;
-            if (!this.b.fixed)
-                this.b.y -= delta.y;
-        };
+        circleTwo = new Path.Circle({
+            center: new Point(100, 100),
+            radius: 10,
+            fillColor: 'red'
+        });  
 
-        // draw different paths
-        // var path1 = new Path({
-        //     strokeColor: 'white',
-        //     strokeWidth: 2,
-        //     strokeCap: 'round'
-        // });
-        
-        // var path2 = new Path({
-        //     strokeColor: 'white',
-        //     strokeWidth: 2,
-        //     strokeCap: 'round'
-        // });
-
-        // var start1 = new Point(-500, 500);
-        // for (var i = 0; i < points; i++){
-        //     path1.add(start1 + new Point(i * length, 0));
-        // }
-
-        // var start2 = new Point(-500, 580);
-        // for (var i = 0; i < points; i++){
-        //     path2.add(start2 + new Point(i * length, 0));
-        // }
-
-        // circleOne = new Path.Circle({
-        //     center: new Point(200, 200),
-        //     radius: 10,
-        //     fillColor: 'white'
-        // });
-
-        // circleTwo = new Path.Circle({
-        //     center: new Point(100, 100),
-        //     radius: 10,
-        //     fillColor: 'red'
-        // });  
         // start playing Celebration
         // var sound = new Howl({
         //     src: ['celebrate.mp3'],
@@ -201,66 +159,6 @@ export class Hands{
         circleObject.scale(scaleObject, scaleObject);
     }
 
-    createPath(strength){
-        var path = new Path({
-            strokeColor: 'black'
-        });
-        path.strokeWidth = 60;
-        springs = [];
-        for (var i = 0; i <= values.amount; i++) {
-            var segment = path.add(new Point(i / values.amount, 0.5) * size);
-            var point = segment.point;
-    
-            if (i == 0 || i == values.amount)
-                point.y += size.height;
-            point.px = point.x;
-            point.py = point.y;
-            // The first two and last two points are fixed:
-            point.fixed = i < 1;
-            if (i > 0) {
-                var spring = new Spring(segment.previous.point, point, strength);
-                springs.push(spring);
-            }
-        }
-    //	path.position.x = 0;
-    //    path.position.x -= size.width / 4;
-        return path;
-    }
-
-    onResize(){
-        if (path)
-		    path.remove();
-        size = view.bounds.size * [2, 1];
-        path = createPath(0.1);
-    }  
-
-    onMouseMove(event) {
-        lastMousePosition = new Point(event.point);
-        //this line is breaking the code
-        path.position.x += lastMousePosition.x;
-    }
-    
-    // runs multiple times
-    onFrame(event) {
-        path.firstSegment.point = lastMousePosition;
-        updateWave(path);
-    }
-
-    updateWave(path) {
-        var force = 1 - values.friction * values.timeStep * values.timeStep;
-        for (var i = 0, l = path.segments.length; i < l; i++) {
-            var point = path.segments[i].point;
-            var dy = (point.y - point.py) * force;
-            point.py = point.y;
-            point.y = Math.max(point.y + dy, 0);
-        }
-    
-        for (var j = 0, l = springs.length; j < l; j++) {
-            springs[j].update();
-        }
-        path.smooth({ type: 'continuous' });
-    }
-    
     sendToSocket(area, xMiddle, yMiddle){
         var cameraValues = {};
         cameraValues.area = area;
@@ -291,22 +189,23 @@ export class Hands{
     map_range(value, low1, high1, low2, high2) {
         return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
     }
-
-
-    // init variables
-    handStyling(){
-        theirhand.strokeColor = 'white';
-        theirhand.fillColor = 'black';
-        theirhand.strokeWidth = 2;
-        theirhand.strokeCap = 'round';
-        yourhand.strokeColor = 'white';
-        yourhand.fillColor = 'black';
-        yourhand.strokeWidth = 2;
-        yourhand.strokeCap = 'round';
-        theirhand.position = view.center;
-        yourhand.position = view.center;
-        yourhand.scale(0.6);
-        theirhand.scale(0.6);
-    }
-
 }
+var Spring = function(a, b, strength, restLength) {
+    this.a = a;
+    this.b = b;
+    this.restLength = restLength || 80;
+    this.strength = strength ? strength : 0.55;
+    this.mamb = values.invMass * values.invMass;
+};
+
+Spring.prototype.update = function() {
+    var delta = this.b - this.a;
+    var dist = delta.length;
+    var normDistStrength = (dist - this.restLength) /
+            (dist * this.mamb) * this.strength;
+    delta.y *= normDistStrength * values.invMass * 0.2;
+    if (!this.a.fixed)
+        this.a.y += delta.y;
+    if (!this.b.fixed)
+        this.b.y -= delta.y;
+};
