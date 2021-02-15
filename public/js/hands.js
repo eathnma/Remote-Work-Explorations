@@ -54,7 +54,6 @@ export class Hands{
         // sound.play();
     }
 
-    
     draw(scale, x, y, type){
         var mappedX = this.map_range(x, 60, 600, 0, windowWidth);
         var mappedY = this.map_range(y, 70, 440, 0, windowHeight);
@@ -67,14 +66,17 @@ export class Hands{
         // create new scale
         var scaleObject = 1; 
         var oldScale;
+        var circleObject;
 
         // type is you
         console.log(type);
 
         if(type === "you") {
             oldScale = pScaleYou;
+            circleObject = circleOne;
         } else if(type === "them") {
             oldScale = pScaleThem;
+            circleObject = circleTwo;
         }
 
         // if newScale 
@@ -94,11 +96,11 @@ export class Hands{
             }
         }
         // translates the position of the circle
-        circleOne.position = new Point(x, y);
+        circleObject.position = new Point(x, y);
         
         // scales the circle compared to how close the hand is to the camera
         // might run into scaling errors when you import the hand
-        circleOne.scale(scaleObject, scaleObject);
+        circleObject.scale(scaleObject, scaleObject);
     }
     
 
