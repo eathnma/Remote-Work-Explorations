@@ -24,6 +24,7 @@ var pScaleThem = 10;
 var xEase = 0; 
 var yEase = 0;
 var easing = 0.05;
+var slap = 0;
 
 // in intervals of 1 second.
 // var myVar = setInterval(myTimer, 1000);
@@ -50,6 +51,7 @@ export class Hands{
         this.circleTwo = circleTwo;
         this.pScaleYou = pScaleYou;
         this.pScaleThem= pScaleThem;
+        this.slap = slap;
 
         // draw different paths
         var path1 = new Path({
@@ -97,22 +99,24 @@ export class Hands{
         var mappedX = this.map_range(x, 60, 600, 0, windowWidth);
         var mappedY = this.map_range(y, 70, 440, 0, windowHeight);
         var mappedScale = this.map_range(scale, 8000, 200000, 10, 100);
-        
-
+    
         // calculates percentage change between the hands
-        console.log(this.percIncrease(mappedScale, pScaleYou)); 
         var percChange = this.percIncrease(mappedScale,pScaleYou);
 
-        if(percChange > 10){
+        if(percChange > 45){
             // move the shape forward
             console.log("slap ass");
+            slap = 150;
         }
 
-        this.updateObject(mappedScale, mappedX, mappedY, type);     
+        console.log(slap);
 
+        this.updateObject(mappedScale, mappedX, mappedY, type, slap); 
+    
+        slap = 0;
     }
 
-    updateObject(mScale, x, y, type){
+    updateObject(mScale, x, y, type, slap){
         // create new scale
         var scaleObject = 1; 
         var oldScale;
@@ -155,8 +159,15 @@ export class Hands{
         var targetY = y;
         var dy = targetY - yEase;
         yEase += dy * easing;
-
-        circleObject.position = new Point(xEase, yEase);
+        
+        if(slap > 1){
+            circleObject.position = new Point(xEase + slap, yEase);    
+        } else {
+            circleObject.position = new Point(xEase, yEase);
+            // console.log("no-slap");
+        }
+        
+        // console.log(xEase, slap);
         
         // scales the circle compared to how close the hand is to the camera
         // might run into scaling errors when you import the hand
@@ -165,7 +176,7 @@ export class Hands{
 
     changeBackground(path1, path2){
         var intersections = path1.getIntersections(path2);
-        console.log(intersections.length);
+        // console.log(intersections.length);
         if (intersections.length > 10) {
             document.body.style.backgroundColor = "red";
         } else {
