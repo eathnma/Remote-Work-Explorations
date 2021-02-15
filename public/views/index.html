@@ -16,24 +16,14 @@ h5{
 .videobox {
   display: none;
 }
+
 #canvasVideo {
   width: 206px;
   height: 144px;
 }
 
-#paperCanvas {
-  background-color: black;
-  width: 200px;
-  height: 300px;
-}
-
-#wrapper {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
 #paperCanvas{
+  background-color: black;
   position: absolute;
   top: 0;
   left: 0;
@@ -51,11 +41,25 @@ h5{
   z-index: 1;
 }
 
+#htmlBox{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+}
+
+#htmlLayout{ 
+  /* you can choose what to use? */
+  display: flex;
+  display: grid;
+
+}
+
   </style>
    <!--  import socket code for detecting users-->
    <!-- <script type="module" src="../js/socket-client.js"></script> -->
 
-     <!-- import paper.js cdn -->
+   <!-- import paper.js cdn -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.11/paper-full.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.1/howler.min.js">
     var sound = new Howl({
@@ -83,6 +87,12 @@ h5{
   <canvas id="paperCanvas">
 
   </canvas>
+
+  <section id="htmlBox">
+    <div id="htmlLayout">
+      <h5>this works!</h5>
+    </div>
+  </section>
 
   <!-- SRC Libraries for Handtracking code  -->
   <script src="https://unpkg.com/carbon-components@latest/scripts/carbon-components.js"></script>
