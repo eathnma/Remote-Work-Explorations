@@ -13,6 +13,14 @@ var circleTwo;
 var pScaleYou = 10;
 var pScaleThem = 10;
 
+// easing for shpaes
+var xEase = 0; 
+var yEase = 0;
+var easing = 0.05;
+
+// in intervals of 1 second.
+var myVar = setInterval(myTimer, 1000);
+
 // const {Howl, Howler} = require('howler');
 
 export class Hands{
@@ -32,7 +40,6 @@ export class Hands{
         this.circleTwo = circleTwo;
         this.pScaleYou = pScaleYou;
         this.pScaleThem= pScaleThem;
-         
 
         // draw paper objects
         circleOne = new Path.Circle({
@@ -59,17 +66,24 @@ export class Hands{
         var mappedY = this.map_range(y, 70, 440, 0, windowHeight);
         var mappedScale = this.map_range(scale, 8000, 200000, 10, 100);
 
-        this.updateObject(mappedX, mappedY, mappedScale, type);     
+        // calculates percentage change between the hands
+        console.log(this.percIncrease(mappedScale, pScaleYou)); 
+        var percChange = this.percIncrease(mappedScale,pScaleYou);
+
+        if(percChange > 10){
+            // move the shape forward
+            console.log("slap ass");
+        }
+
+        this.updateObject(mappedScale, mappedX, mappedY, type);     
+
     }
 
-    updateObject(x,y,mScale,type){
+    updateObject(mScale, x, y, type){
         // create new scale
         var scaleObject = 1; 
         var oldScale;
         var circleObject;
-
-        // type is you
-        console.log(type);
 
         if(type === "you") {
             oldScale = pScaleYou;
@@ -95,14 +109,40 @@ export class Hands{
                 pScaleThem = mScale;
             }
         }
+
         // translates the position of the circle
-        circleObject.position = new Point(x, y);
+        // apply easing to the shapes
+
+        // easing for x
+        var targetX = x;
+        var dx = targetX - xEase;
+        xEase += dx * easing;
+
+        // easing for y
+        var targetY = y;
+        var dy = targetY - yEase;
+        yEase += dy * easing;
+
+        circleObject.position = new Point(xEase, yEase);
         
         // scales the circle compared to how close the hand is to the camera
         // might run into scaling errors when you import the hand
         circleObject.scale(scaleObject, scaleObject);
     }
-    
+
+    percIncrease(a, b) {
+        var percent;
+        if(b !== 0) {
+            if(a !== 0) {
+                percent = (b - a) / a * 100;
+            } else {
+                percent = b * 100;
+            }
+        } else {
+            percent = - a * 100;            
+        }       
+        return Math.floor(percent);
+    }
 
     sendToSocket(area, xMiddle, yMiddle){
         var cameraValues = {};
