@@ -15,22 +15,6 @@ export class SocketClient{
         // appendMessage('You Joined');
        hands.socket.emit('new-user', user);
 
-        // messageForm.addEventListener("submit", e =>{
-        // // remove page refresh on submit
-        // e.preventDefault();
-
-        // const message = messageInput.value;
-        
-        // // send chat message to SOCKET.
-        // // 1. Key "send-chat-message"
-        // // 2. Value "message"
-        // // 3. Socket does the handling in the backend.
-        // hands.socket.emit('send-chat-message', message);
-
-        // // set string to default value after 'submit'
-        // messageInput.value = '';
-        // });
-
     }
     output(){
         // grabs the key 'chat-message' from the backend
@@ -53,6 +37,10 @@ export class SocketClient{
             console.log('person-connected', user);
             document.getElementById("user").innerHTML = user + " has entered the room!";
         });
+
+        // sets html element to prompt-name 
+        document.getElementById("user-name").innerHTML = user;
+        console.log(user);
 
     }
     
