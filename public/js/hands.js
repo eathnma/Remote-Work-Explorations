@@ -11,32 +11,75 @@ var values = {
 values.invMass = 1 / values.mass;
 
 var path, springs;
-var size = view.size * 0.5;
+var size = window.size * 0.5;
 
-var lastMousePosition = view.center;
+var lastMousePosition = window.center;
 
 // this may change on resize
 var windowWidth;
 var windowHeight;
 
-// draw two paper.js objects
-var circleOne;
-var circleTwo;
 
-// inital sizing for each circle
+// inital sizing for each object
 var pScaleYou = 10;
 var pScaleThem = 10;
 
-// easing for shpaes
+// easing for objects
 var xEase = 0; 
 var yEase = 0;
 var easing = 0.05;
 var slap = 0;
 
-// in intervals of 1 second.
-// var myVar = setInterval(myTimer, 1000);
+var Spring = function(a, b, strength, restLength) {
+    this.a = a;
+    this.b = b;
+    this.restLength = restLength || 80;
+    this.strength = strength ? strength : 0.55;
+    this.mamb = values.invMass * values.invMass;
+};
 
-// const {Howl, Howler} = require('howler');
+Spring.prototype.update = function() {
+    var delta = this.b - this.a;
+    var dist = delta.length;
+    var normDistStrength = (dist - this.restLength) /
+            (dist * this.mamb) * this.strength;
+    delta.y *= normDistStrength * values.invMass * 0.2;
+    if (!this.a.fixed)
+        this.a.y += delta.y;
+    if (!this.b.fixed)
+        this.b.y -= delta.y;
+};
+
+function onResize(){
+    if (path)
+		path.remove();
+	size = view.bounds.size * [2, 1];
+	path = createPath(0.1);
+}
+
+function createPath(strength){
+    var path = new Path({
+        strokeColor: 'black'
+    });
+    path.strokeWidth = 60;
+    springs = [];
+    for (var i = 0; i <= values.amount; i++) {
+        var segment = path.add(new Point(i / values.amount, 0.5) * size);
+        var point = segment.point;
+
+        if (i == 0 || i == values.amount)
+            point.y += size.height;
+        point.px = point.x;
+        point.py = point.y;
+        // The first two and last two points are fixed:
+        point.fixed = i < 1;
+        if (i > 0) {
+            var spring = new Spring(segment.previous.point, point, strength);
+            springs.push(spring);
+        }
+    }
+    return path;
+}
 
 export class Hands{
 
@@ -60,73 +103,18 @@ export class Hands{
         this.pScaleThem= pScaleThem;
         this.slap = slap;
 
-        var Spring = function(a, b, strength, restLength) {
-            this.a = a;
-            this.b = b;
-            this.restLength = restLength || 80;
-            this.strength = strength ? strength : 0.55;
-            this.mamb = values.invMass * values.invMass;
-        };
+        this.Spring = Spring;
 
-        Spring.prototype.update = function() {
-            var delta = this.b - this.a;
-            var dist = delta.length;
-            var normDistStrength = (dist - this.restLength) /
-                    (dist * this.mamb) * this.strength;
-            delta.y *= normDistStrength * values.invMass * 0.2;
-            if (!this.a.fixed)
-                this.a.y += delta.y;
-            if (!this.b.fixed)
-                this.b.y -= delta.y;
-        };
+        this.path = path;
+        createPath(1);
 
-        // draw different paths
-        // var path1 = new Path({
-        //     strokeColor: 'white',
-        //     strokeWidth: 2,
-        //     strokeCap: 'round'
-        // });
-        
-        // var path2 = new Path({
-        //     strokeColor: 'white',
-        //     strokeWidth: 2,
-        //     strokeCap: 'round'
-        // });
-
-        // var start1 = new Point(-500, 500);
-        // for (var i = 0; i < points; i++){
-        //     path1.add(start1 + new Point(i * length, 0));
-        // }
-
-        // var start2 = new Point(-500, 580);
-        // for (var i = 0; i < points; i++){
-        //     path2.add(start2 + new Point(i * length, 0));
-        // }
-
-        // circleOne = new Path.Circle({
-        //     center: new Point(200, 200),
-        //     radius: 10,
-        //     fillColor: 'white'
-        // });
-
-        // circleTwo = new Path.Circle({
-        //     center: new Point(100, 100),
-        //     radius: 10,
-        //     fillColor: 'red'
-        // });  
-        // start playing Celebration
-        // var sound = new Howl({
-        //     src: ['celebrate.mp3'],
-        // });
-
-        // sound.play();
     }
 
     draw(scale, x, y, type){
         var mappedX = this.map_range(x, 60, 600, 0, windowWidth);
         var mappedY = this.map_range(y, 70, 440, 0, windowHeight);
         var mappedScale = this.map_range(scale, 8000, 200000, 10, 100);
-    
+
         // calculates percentage change between the hands
         var percChange = this.percIncrease(mappedScale,pScaleYou);
 
@@ -190,56 +178,24 @@ export class Hands{
         if(slap > 1){
             circleObject.position = new Point(xEase + slap, yEase);    
         } else {
-            circleObject.position = new Point(xEase, yEase);
+            // circleObject.position = new Point(xEase, yEase);
             // console.log("no-slap");
+            lastMousePosition = new Point(xEase, yEase);
+            //this line is breaking the code
+            path.position.x += lastMousePosition.x;
         }
-        
-        // console.log(xEase, slap);
-        
+                
         // scales the circle compared to how close the hand is to the camera
         // might run into scaling errors when you import the hand
         circleObject.scale(scaleObject, scaleObject);
     }
 
-    createPath(strength){
-        var path = new Path({
-            strokeColor: 'black'
-        });
-        path.strokeWidth = 60;
-        springs = [];
-        for (var i = 0; i <= values.amount; i++) {
-            var segment = path.add(new Point(i / values.amount, 0.5) * size);
-            var point = segment.point;
-    
-            if (i == 0 || i == values.amount)
-                point.y += size.height;
-            point.px = point.x;
-            point.py = point.y;
-            // The first two and last two points are fixed:
-            point.fixed = i < 1;
-            if (i > 0) {
-                var spring = new Spring(segment.previous.point, point, strength);
-                springs.push(spring);
-            }
-        }
-    //	path.position.x = 0;
-    //    path.position.x -= size.width / 4;
-        return path;
-    }
+    // onMouseMove(event) {
+    //     lastMousePosition = new Point(event.point);
+    //     //this line is breaking the code
+    //     path.position.x += lastMousePosition.x;
+    // }
 
-    onResize(){
-        if (path)
-		    path.remove();
-        size = view.bounds.size * [2, 1];
-        path = createPath(0.1);
-    }  
-
-    onMouseMove(event) {
-        lastMousePosition = new Point(event.point);
-        //this line is breaking the code
-        path.position.x += lastMousePosition.x;
-    }
-    
     // runs multiple times
     onFrame(event) {
         path.firstSegment.point = lastMousePosition;
