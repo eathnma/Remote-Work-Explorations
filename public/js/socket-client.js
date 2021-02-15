@@ -44,7 +44,6 @@ export class SocketClient{
             // put hand class here. so it draws it out for the other person
 
             hands.draw(`${data.area}`,`${data.xMiddle}`,`${data.yMiddle}`, "them");
-            // hands.drawOtherHand(`${data.xMiddle}`,30, 30);
         });
 
         hands.socket.on('user-connected', user =>{

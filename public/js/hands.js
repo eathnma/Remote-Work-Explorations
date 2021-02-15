@@ -8,7 +8,8 @@ var windowHeight;
 var circleOne;
 var circleTwo;
 
-var prevCircleScale;
+var prevMappedScale = 10;
+var circleScale = 1;
 
 // const {Howl, Howler} = require('howler');
 
@@ -25,7 +26,8 @@ export class Hands{
         
         this.circleOne = circleOne;
         this.circleTwo = circleTwo;
-        this.prevCircleScale =  prevCircleScale;
+        this.prevMappedScale = prevMappedScale;
+        this.circleScale = circleScale;
          
         circleOne = new Path.Circle({
             center: new Point(200, 200),
@@ -38,6 +40,7 @@ export class Hands{
             radius: 10,
             fillColor: 'red'
         });  
+
         
         // start playing Celebration
         // var sound = new Howl({
@@ -51,21 +54,51 @@ export class Hands{
     draw(scale, x, y, type){
         var mappedX = this.map_range(x, 60, 600, 0, windowWidth);
         var mappedY = this.map_range(y, 70, 440, 0, windowHeight);
-        var mappedScale = this.map_range(scale, 8000, 20000, 3, 30);
-
-        console.log(mappedScale);
-
+        var mappedScale = this.map_range(scale, 8000, 200000, 10, 100);
+        
+        // might run into scaling errors when you import the hand
         if(type == 'you'){
+            console.log(mappedScale,prevMappedScale);
+            if(mappedScale === prevMappedScale){
+                circleScale = 1;
+            } else {
+                circleScale = mappedScale / prevMappedScale;
+                prevMappedScale = mappedScale;
+            }
+                
             circleOne.position = new Point(mappedX, mappedY);
-            // console.log(circleOne.position);
-            // circleOne.scale();
+
+            circleOne.scale(circleScale, circleScale);
         }
 
         if(type == 'them'){
             circleTwo.position = new Point(mappedX, mappedY);
-            // circleTwo.radius = mappedScale;
         }
     }
+
+    // resizeShape(scale, x, y){
+    //     console.log(mappedScale,prevCircleScale);
+    //     // scaling logic
+    //     if(mappedScale == prevCircleScale){
+    //         console.log("the values are the same!");
+    //         // Value stays the same. Return the scale.
+    //         circleScale = 1;
+    //     } 
+    //         else if(mappedScale > prevCircleScale) {
+    //                 console.log("mappedScale more than prevScale");
+    //                 circleScale = mappedScale / prevCircleScale;
+
+    //                 // set mappedScale to the next prevScale
+    //                 mappedScale = prevCircleScale;
+    //             } else if(mappedScale < prevCircleScale){
+    //                 console.log("mappedScale less than prevScale");
+    //                 circleScale = prevCircleScale / mappedScale;
+
+    //                 // set mappedScale to the next prevScale
+    //                 mappedScale = prevCircleScale;
+    //             }
+    
+    // }
 
     sendToSocket(area, xMiddle, yMiddle){
         var cameraValues = {};
