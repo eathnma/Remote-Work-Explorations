@@ -65,12 +65,13 @@ function runDetection() {
 
             // sends values to other client
             hands.sendToSocket(area, xMiddle, yMiddle);
-            
-            // hands.drawOtherHand(270, 30, 30);
-
-            // takes local values and draws image
-            hands.draw(area, xMiddle, yMiddle, "you");
-                        
+        
+            // if no values, then update hands
+            if(area != null){
+                // takes local values and draws image
+                hands.draw(area, xMiddle, yMiddle, "you");
+            }
+                                   
             // console.log(predictions.bbox);
             model.renderPredictions(predictions, canvas, context, video);
             if (isVideo) {
