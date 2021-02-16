@@ -8,7 +8,7 @@ const express = require('express');
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
-app.use(express.static("app"));
+app.use(express.static("public"));
 app.use('/js',express.static(__dirname + '/js'));
 
 app.set('views', path.join(__dirname, '/views'));
