@@ -26,6 +26,12 @@ values.invMass = 1 / values.mass;
 
 var size;
 
+var xEaseOne = 0; 
+var yEaseOne = 0;
+
+var xEaseTwo = 0;
+var yEaseTwo = 0;
+
 // this may change on resize
 var windowWidth;
 var windowHeight;
@@ -106,11 +112,11 @@ export class Hands{
         // calculates percentage change between the hands
         var percChange = this.percIncrease(mappedScale,pScaleYou);
 
-        if(percChange > 45){
-            // move the shape forward
-            console.log("slap");
-            slap = 150;
-        }
+        // if(percChange > 45){
+        //     // move the shape forward
+        //     // console.log("slap");
+        //     slap = 150;
+        // }
 
         this.updateObject(mappedScale, mappedX, mappedY, type, slap); 
     
@@ -122,23 +128,20 @@ export class Hands{
         var scaleObject = 1; 
         var oldScale;
 
-        var xEase = 0; 
-        var yEase = 0;
-
-         // easing for x
-         var targetX = x;
-         var dx = targetX - xEase;
-         xEase += dx * easing;
- 
-         // easing for y
-         var targetY = y;
-         var dy = targetY - yEase;
-         yEase += dy * easing;
-
         console.log(type);
 
         if(type === "you") {
             oldScale = pScaleYou;
+
+            // easing for x one
+            var targetXOne = x;
+            var dxOne = targetXOne - xEaseOne;
+            xEaseOne += dxOne * easing;
+    
+            // easing for y one
+            var targetYOne = y;
+            var dyOne = targetYOne - yEaseOne;
+            yEaseOne += dyOne * easing;
 
             var rotation2 = yourArm.segments[1].point.angle;
             yourHand.rotate(1.5 * (rotation2 - lastRotation2));
@@ -150,24 +153,35 @@ export class Hands{
             // update noodle arm
             updateWave(yourSprings, yourArm);
 
-            yourHand.position = new Point(xEase, yEase);
-            
+            // console.log(xEase, yEase);
+            yourHand.position = new Point(xEaseOne, yEaseOne);
+
         } else if(type === "them") {
             oldScale = pScaleThem;
             object = theirHand;
 
-              //rotate hand to match arm
-              var rotation = theirArm.segments[1].point.angle;
-              theirHand.rotate(1.5 * (rotation - lastRotation));
-              lastRotation = rotation; 
-  
-              //attach arm to wrist
-              theirArm.firstSegment.point = theirHand.firstSegment.point.add(new Point (60, 50));
-  
-              // update noodle arm
-              updateWave(theirSprings, theirArm);
+            // easing for x two
+            var targetXTwo = x;
+            var dxTwo = targetXTwo - xEaseTwo;
+            xEaseTwo += dxTwo * easing;
 
-              theirHand.position = new Point(xEase, yEase);
+            // easing for y two
+            var targetYTwo = y;
+            var dyTwo = targetYTwo - yEaseTwo;
+            yEaseTwo += dyTwo * easing;
+
+            //rotate hand to match arm
+            var rotation = theirArm.segments[1].point.angle;
+            theirHand.rotate(1.5 * (rotation - lastRotation));
+            lastRotation = rotation; 
+
+            //attach arm to wrist
+            theirArm.firstSegment.point = theirHand.firstSegment.point.add(new Point (60, 50));
+
+            // update noodle arm
+            updateWave(theirSprings, theirArm);
+
+            theirHand.position = new Point(xEaseTwo, yEaseTwo);
         }
 
         // if newScale 
