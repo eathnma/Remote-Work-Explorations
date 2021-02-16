@@ -139,6 +139,9 @@ export class Hands{
         if (relativeScale > 0.5 && relativeScale < 1.5 && intersections.length > 10 && theyEntered == true) {
             audio.play();
             document.getElementById('htmlLayout').style.backgroundImage = randomGif;
+            
+            // change the color of the text when hands overlap
+            document.getElementById('instructions').style.color = 'white';
         } else {
             audio.pause();
             document.getElementById('htmlLayout').style.backgroundImage = null;
