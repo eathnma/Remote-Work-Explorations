@@ -33,7 +33,7 @@ var Spring = function(a, b, strength, restLength) {
 };
 
 Spring.prototype.update = function() {
-	var delta = this.b - this.a;
+	var delta = this.b.subtract(this.a);
 	var dist = delta.length;
 	var normDistStrength = (dist - this.restLength) /
 			(dist * this.mamb) * this.strength;
@@ -54,7 +54,8 @@ function createPath(strength) {
 	springs = [];
     
 	for (var i = 0; i <= values.amount; i++) {
-		var segment = arm.add(new Point(i / values.amount, 1.5) * size);
+		var segment = arm.add(new Point(i / values.amount, 1.5).multiply(size));
+        // var segment = arm.add(new Point(i / values.amount, 1.5).multiply(size));
 		var point = segment.point;
 
         console.log(point);
@@ -85,8 +86,8 @@ function onResize() {
 
 var lastMousePosition = view.center;
 
-function onMouseMove(event) {
-    lastMousePosition = new Point(event.point);
+function onMouseMove(x,y) {
+    lastMousePosition = new Point(x,y);
 }
 
 var lastRotation = 0;
@@ -99,7 +100,7 @@ function onFrame(event) {
     lastRotation = rotation;
     
     //attach arm to wrist
-    path.firstSegment.point = yourhand.firstSegment.point + new Point(60, 50);
+    path.firstSegment.point = yourhand.firstSegment.point.add(new Point(60, 50));
     
     //move hand
     yourhand.position = lastMousePosition;
