@@ -141,7 +141,7 @@ export class Hands{
             document.getElementById('htmlLayout').style.backgroundImage = randomGif;
             
             // change the color of the text when hands overlap
-            document.getElementById('instructions').style.color = 'white';
+            // document.getElementById('instructions').style.color = 'white';
         } else {
             audio.pause();
             document.getElementById('htmlLayout').style.backgroundImage = null;
