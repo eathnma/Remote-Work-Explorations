@@ -125,6 +125,16 @@ export class Hands{
         var oldScale;
         var object;
 
+         // easing for x
+         var targetX = x;
+         var dx = targetX - xEase;
+         xEase += dx * easing;
+ 
+         // easing for y
+         var targetY = y;
+         var dy = targetY - yEase;
+         yEase += dy * easing;
+
         console.log(type);
 
         if(type === "you") {
@@ -141,6 +151,9 @@ export class Hands{
             // update noodle arm
             updateWave(yourSprings, yourArm);
 
+            yourHand.position = new Point(xEase, yEase);
+
+
         } else if(type === "them") {
             oldScale = pScaleThem;
             object = theirHand;
@@ -155,50 +168,41 @@ export class Hands{
   
               // update noodle arm
               updateWave(theirSprings, theirArm);
+
+              theirHand.position = new Point(xEase, yEase);
         }
 
         // if newScale 
-        if(mScale === oldScale){
-            scaleObject = 1;
-        } else {
-            if(type === "you"){
-                scaleObject = mScale / pScaleYou;
+        // if(mScale === oldScale){
+        //     scaleObject = 1;
+        // } else {
+        //     if(type === "you"){
+        //         scaleObject = mScale / pScaleYou;
 
-                // scaleObject to a new variable
-                pScaleYou = mScale;
+        //         // scaleObject to a new variable
+        //         pScaleYou = mScale;
 
-            } else if(type === "them"){
-                scaleObject = mScale / pScaleThem;
-                // scaleObject to a new variable
-                pScaleThem = mScale;
-            }
-        }
+        //     } else if(type === "them"){
+        //         scaleObject = mScale / pScaleThem;
+        //         // scaleObject to a new variable
+        //         pScaleThem = mScale;
+        //     }
+        // }
 
-        // translates the position of the circle
-        // apply easing to the shapes
+    
 
-        // easing for x
-        var targetX = x;
-        var dx = targetX - xEase;
-        xEase += dx * easing;
+        // if(slap > 1){
+        //     // theirHand.position = new Point(xEase - slap, yEase); 
+        //     object.position = new Point(xEase - slap, yEase);
 
-        // easing for y
-        var targetY = y;
-        var dy = targetY - yEase;
-        yEase += dy * easing;
-
-        if(slap > 1){
-            // theirHand.position = new Point(xEase - slap, yEase); 
-            object.position = new Point(xEase - slap, yEase);
-
-        } else {
-            // console.log("no-slap");
-            // theirHand.position = new Point(xEase, yEase);
-            object.position = new Point(xEase, yEase);
-        }
+        // } else {
+        //     // console.log("no-slap");
+        //     // theirHand.position = new Point(xEase, yEase);
+        //     object.position = new Point(xEase, yEase);
+        // }
         
         // console.log(xEase, slap);
-        
+    
         // scales the circle compared to how close the hand is to the camera
         // might run into scaling errors when you import the hand
         // circleObject.scale(scaleObject, scaleObject);
