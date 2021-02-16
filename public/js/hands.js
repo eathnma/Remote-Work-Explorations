@@ -51,7 +51,6 @@ export class Hands{
     constructor(){
         // connect socket 
         this.socket = io();
-        paper.install(window);
 
          // Create an empty project and a view for the canvas:
         windowWidth = window.innerWidth;
@@ -87,8 +86,6 @@ export class Hands{
             yourHand.position = view.center;
             yourHand.scale(0.6);
             yourHand.rotate(-100);
-
-            
 
         size = view.size;
 
@@ -145,8 +142,6 @@ export class Hands{
             updateWave(yourSprings, yourArm);
 
         } else if(type === "them") {
-
-            console.log("them");
             oldScale = pScaleThem;
             object = theirHand;
 

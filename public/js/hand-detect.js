@@ -18,7 +18,6 @@ let hands;
 let previousHandArea, previousHandX, previousHandY;
 
 export class HandDetect{
-
     constructor(manyHands){
         hands = manyHands;
         this.load();
@@ -27,6 +26,7 @@ export class HandDetect{
 load(){
     // Load the model.
     handTrack.load(modelParams).then(lmodel => {
+    console.log("load model");
     // detect objects in the image.
     model = lmodel;
     this.startVideo();
