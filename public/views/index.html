@@ -99,38 +99,23 @@ h5{
 
    <!-- import paper.js cdn -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.11/paper-full.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.1/howler.min.js">
-    var sound = new Howl({
-        src: ["../../assets/celebrate.mp3"],
 
-        onload(){
-          console.log("Sound file loaded!");
-        },
-
-        onloaderror(e,msg){
-          console.log("Error", e, msg);
-        }
-
-      });
-      sound.play();
-      console.log(sound);
-  </script>
 </head>
 
 <body>
   <div id="loading">
-      <img id="loading-image" src="../../assets/loading.gif" alt="loading...">
+      <img id="loading-image" src="../assets/loading.gif" alt="loading...">
   </div>
     
   <audio id="myAudio">
-      <source src="./assets/celebrate.mp3" type="audio/mpeg">
+      <source src="../assets/celebrate.mp3" type="audio/mpeg">
       Your browser does not support the audio element.
   </audio>
   <!-- this video isn't shown on the html canvas -->
   <video class="videobox canvasbox" autoplay="autoplay" id="myvideo"></video>
 
   <canvas id="canvasVideo" class="canvasbox"></canvas>
-  <img id="frame" src="../../assets/frame.png" alt="frame">
+  <img id="frame" src="../assets/frame.png" alt="frame">
   <canvas id="paperCanvas" resize></canvas>
 
   <section id="htmlBox">
