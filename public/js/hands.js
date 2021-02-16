@@ -151,8 +151,7 @@ export class Hands{
             updateWave(yourSprings, yourArm);
 
             yourHand.position = new Point(xEase, yEase);
-
-
+            
         } else if(type === "them") {
             oldScale = pScaleThem;
             object = theirHand;
