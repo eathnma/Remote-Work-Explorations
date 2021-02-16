@@ -158,7 +158,7 @@ export class Hands{
 
         } else if(type === "them") {
             oldScale = pScaleThem;
-            object = theirHand;
+            // object = theirHand;
 
             // easing for x two
             var targetXTwo = x;
