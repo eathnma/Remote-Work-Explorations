@@ -39,8 +39,6 @@ var pScaleYou = 10;
 var pScaleThem = 10;
 
 // easing for shpaes
-var xEase = 0; 
-var yEase = 0;
 var easing = 0.05;
 var slap = 0;
 
@@ -123,7 +121,9 @@ export class Hands{
         // create new scale
         var scaleObject = 1; 
         var oldScale;
-        var object;
+
+        var xEase = 0; 
+        var yEase = 0;
 
          // easing for x
          var targetX = x;
@@ -139,7 +139,6 @@ export class Hands{
 
         if(type === "you") {
             oldScale = pScaleYou;
-            object = yourHand;
 
             var rotation2 = yourArm.segments[1].point.angle;
             yourHand.rotate(1.5 * (rotation2 - lastRotation2));
