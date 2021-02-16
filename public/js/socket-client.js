@@ -36,6 +36,7 @@ export class SocketClient{
         hands.socket.on('user-connected', user =>{
             console.log('person-connected', user);
             document.getElementById("user").innerHTML = user + " has entered the room!";
+            document.getElementById("instructions").innerHTML = "Move your hand to give " + user + " a high five";
         });
 
         // sets html element to prompt-name 

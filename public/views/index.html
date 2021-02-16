@@ -5,6 +5,23 @@
   <meta charset="UTF-8">
   <title>Handtrack.js</title>
   <style>
+    @font-face {
+        font-family: Castledown;
+        src: url(../../assets/Castledown.ttf) format('ttf');
+        font-weight: normal;
+        font-style: normal;
+    }
+      
+      #instructions {
+          display: block;
+          margin-top: 40px;
+          margin-left: auto;
+          margin-right: auto;
+          width: 60%;
+          text-align: center;
+          font-family: Castledown, Arial, sans-serif;
+          font-size: 1.1em;
+      }
 
     html,
 body {
@@ -58,6 +75,7 @@ h5{
 #htmlBox{
   background-color: white;
   position: absolute;
+    top: 0;
   width: 100%;
   height: 100%;
   z-index: -1;
@@ -126,6 +144,8 @@ h5{
       <source src="../../assets/celebrate.mp3" type="audio/mpeg">
       Your browser does not support the audio element.
   </audio>
+    
+  <p id="instructions">Move your hand in front of the camera to give a high five</p>
   <!-- this video isn't shown on the html canvas -->
   <video class="videobox canvasbox" autoplay="autoplay" id="myvideo"></video>
 
@@ -135,7 +155,7 @@ h5{
 
   <section id="htmlBox">
     <div id="htmlLayout">
-      <h5 id="user-name">this works!</h5>
+      <h5 id="user-name" style="display:none;">this works!</h5>
       <h5 id="user"></h5>
     </div>
   </section>
