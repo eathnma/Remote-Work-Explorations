@@ -36,6 +36,7 @@ load(){
 startVideo() {
     let that = this;
     handTrack.startVideo(video).then(function (status) {
+        document.getElementById('loading').style.display = "none";
         console.log("video started", status);
         if (status) {
             isVideo = true;

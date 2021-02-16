@@ -91,16 +91,16 @@ export class Hands{
 
         // new CompoundPath for the hand
         theirhand = new CompoundPath(pathData2);
-            theirhand.strokeColor = 'white';
-            theirhand.fillColor = 'black';
+            theirhand.strokeColor = 'black';
+            theirhand.fillColor = 'white';
             theirhand.strokeWidth = 2;
             theirhand.strokeCap = 'round';
             theirhand.position = view.center;
             theirhand.scale(0.6);
         
         yourhand = new CompoundPath(pathData1);
-            yourhand.strokeColor = 'white';
-            yourhand.fillColor = 'black';
+            yourhand.strokeColor = 'black';
+            yourhand.fillColor = 'white';
             yourhand.strokeWidth = 2;
             yourhand.strokeCap = 'round';
             yourhand.position = view.center;
