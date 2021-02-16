@@ -26,11 +26,11 @@ values.invMass = 1 / values.mass;
 
 var size;
 
-var xEaseOne = 0; 
-var yEaseOne = 0;
+var xEaseOne = 200; 
+var yEaseOne = 500;
 
-var xEaseTwo = 0;
-var yEaseTwo = 0;
+var xEaseTwo = 700;
+var yEaseTwo = 500;
 
 // this may change on resize
 var windowWidth;
@@ -64,7 +64,7 @@ Spring.prototype.update = function() {
 		this.b.x -= delta.x;
 };
 
-// const {Howl, Howler} = require('howler');
+var theyEntered = false;
 
 //variable to store current gif
 var gifs = [];
@@ -72,6 +72,7 @@ var randomGif;
 
 //celebration
 var audio = document.getElementById("myAudio");
+
 
 export class Hands{
 
@@ -93,14 +94,13 @@ export class Hands{
         for (var i = 0; i < 10; i++) {
             gifs.push("url(../assets/" + i + ".gif)");
         }
-        console.log(gifs);
-        
+
         //initialize current gif
         randomGif =  gifs[Math.floor(Math.random()*gifs.length)];
 
         //  new CompoundPath for the their hand
-         theirHand = new CompoundPath(pathData1);
-            theirHand.strokeColor = 'black';
+        theirHand = new CompoundPath(pathData1);
+            theirHand.strokeColor = 'white';
             theirHand.fillColor = 'white';
             theirHand.strokeWidth = 2;
             theirHand.strokeCap = 'round';
@@ -110,7 +110,7 @@ export class Hands{
 
         // new Compound Path for your hand
         yourHand = new CompoundPath(pathData2);
-            yourHand.strokeColor = 'black';
+            yourHand.strokeColor = 'white';
             yourHand.fillColor = 'white';
             yourHand.strokeWidth = 2;
             yourHand.strokeCap = 'round';
@@ -122,10 +122,11 @@ export class Hands{
 
         yourArm = createPath(yourSprings, 0.1);
         theirArm = createPath(theirSprings, 0.1);
-
+        console.log(theirArm);
     }
     
     checkHit(path1, path2) {
+
         //compare sizes of hands
         var area1 = path1.bounds.width * path1.bounds.height;
         var area2 = path2.bounds.width * path2.bounds.height;
@@ -135,7 +136,7 @@ export class Hands{
         var intersections = path1.getIntersections(path2);
         
         //if the hands are a similar location and size...
-        if (relativeScale > 0.5 && relativeScale < 1.5 && intersections.length > 10) {
+        if (relativeScale > 0.5 && relativeScale < 1.5 && intersections.length > 10 && theyEntered == true) {
             audio.play();
             document.getElementById('htmlLayout').style.backgroundImage = randomGif;
         } else {
@@ -150,6 +151,7 @@ export class Hands{
         var mappedX = this.map_range(x, 60, 600, 0, windowWidth);
         var mappedY = this.map_range(y, 70, 440, 0, windowHeight);
         var mappedScale = this.map_range(scale, 8000, 200000, 5, 20);
+
 
         // calculates percentage change between the hands
         var percChange = this.percIncrease(mappedScale,pScaleYou);
@@ -173,6 +175,8 @@ export class Hands{
         console.log(type);
 
         if(type === "you") {
+            yourHand.strokeColor = 'black';
+
             oldScale = pScaleYou;
 
             // easing for x one
@@ -199,6 +203,8 @@ export class Hands{
             yourHand.position = new Point(xEaseOne, yEaseOne);
 
         } else if(type === "them") {
+            theirHand.strokeColor = 'black';
+            theyEntered = true;
             oldScale = pScaleThem;
             // object = theirHand;
 
