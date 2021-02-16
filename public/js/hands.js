@@ -93,7 +93,7 @@ export class Hands{
         size = view.size;
 
         yourArm = createPath(yourSprings, 0.1);
-        // theirArm = createPath(theirSprings, 0.1);
+        theirArm = createPath(theirSprings, 0.1);
 
         // start playing Celebration
         // var sound = new Howl({
@@ -108,31 +108,6 @@ export class Hands{
         var mappedY = this.map_range(y, 70, 440, 0, windowHeight);
         var mappedScale = this.map_range(scale, 8000, 200000, 5, 20);
 
-        if(type === "them"){
-           //rotate hand to match arm
-            var rotation = theirArm.segments[1].point.angle;
-            theirHand.rotate(1.5*(rotation - lastRotation));
-            lastRotation = rotation; 
-
-            //attach arm to wrist
-            theirArm.firstSegment.point = theirHand.firstSegment.point.add(new Point (60, 50));
-
-            // update noodle arm
-            updateWave(theirSprings, theirArm);
-        }
-
-        if(type === "you"){
-            var rotation2 = yourArm.segments[1].point.angle;
-            yourHand.rotate(1.5* (rotation2 - lastRotation2));
-            lastRotation2 = rotation2;
-            
-            //attach arm to wrist
-            yourArm.firstSegment.point = yourHand.firstSegment.point.add(new Point(-60, -50));
-
-            // update noodle arm
-            updateWave(yourSprings, yourArm);
-        }
-        
         // calculates percentage change between the hands
         var percChange = this.percIncrease(mappedScale,pScaleYou);
 
@@ -153,13 +128,38 @@ export class Hands{
         var oldScale;
         var object;
 
+        console.log(type);
+
         if(type === "you") {
             oldScale = pScaleYou;
-            // object = yourHand;
+            object = yourHand;
+
+            var rotation2 = yourArm.segments[1].point.angle;
+            yourHand.rotate(1.5 * (rotation2 - lastRotation2));
+            lastRotation2 = rotation2;
+            
+            //attach arm to wrist
+            yourArm.firstSegment.point = yourHand.firstSegment.point.add(new Point(-60, -50));
+
+            // update noodle arm
+            updateWave(yourSprings, yourArm);
+
         } else if(type === "them") {
+
+            console.log("them");
             oldScale = pScaleThem;
-            // object = theirHand;
-            // circleObject = circleTwo;
+            object = theirHand;
+
+              //rotate hand to match arm
+              var rotation = theirArm.segments[1].point.angle;
+              theirHand.rotate(1.5 * (rotation - lastRotation));
+              lastRotation = rotation; 
+  
+              //attach arm to wrist
+              theirArm.firstSegment.point = theirHand.firstSegment.point.add(new Point (60, 50));
+  
+              // update noodle arm
+              updateWave(theirSprings, theirArm);
         }
 
         // if newScale 
@@ -194,13 +194,12 @@ export class Hands{
 
         if(slap > 1){
             // theirHand.position = new Point(xEase - slap, yEase); 
-            yourHand.position = new Point(xEase - slap, yEase);
+            object.position = new Point(xEase - slap, yEase);
 
         } else {
             // console.log("no-slap");
             // theirHand.position = new Point(xEase, yEase);
-            yourHand.position = new Point(xEase, yEase);
-            theirHand.position = new Point(xEase + 150, yEase);
+            object.position = new Point(xEase, yEase);
         }
         
         // console.log(xEase, slap);
