@@ -15,7 +15,6 @@ const modelParams = {
 }
 
 let hands;
-let previousHandArea, previousHandX, previousHandY;
 
 export class HandDetect{
     constructor(manyHands){
@@ -41,7 +40,7 @@ startVideo() {
             isVideo = true;
             runDetection();
         } else {
-
+            console.log("video didn't load!");
         }   
     });
 }
