@@ -6,4 +6,3 @@ import{ SocketClient } from './socket-client.js';
 var hands = new Hands();
 var handDetect = new HandDetect(hands);
 var socketClient = new SocketClient(hands);
-
